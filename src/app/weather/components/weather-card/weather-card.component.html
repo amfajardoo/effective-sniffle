@@ -1,0 +1,11 @@
+<mat-card class="weather-card" *ngIf="weatherDetail; else noLocationFound">
+  <mat-card-title>{{ weatherDetail.location }}</mat-card-title>
+
+  <mat-card-content>
+    <p>The temperature in {{ weatherDetail.location }} is: {{ weatherDetail.temp }}</p>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #noLocationFound>
+  It seems that you have not done any search, try to search your location :)
+</ng-template>

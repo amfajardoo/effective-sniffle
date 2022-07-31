@@ -1,0 +1,13 @@
+:host {
+  padding-left: 5%;
+  padding-right: 5%;
+
+  display: grid;
+  row-gap: 1rem;
+  grid-template-rows: 10% 10% 1fr;
+  height: 100%;
+}
+
+.title {
+  margin-top: auto;
+}

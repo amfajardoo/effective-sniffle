@@ -1,11 +1,14 @@
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
-
+import { autoUnsubscribe } from '@hirez_io/observer-spy';
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
 } from '@angular/platform-browser-dynamic/testing';
+
+autoUnsubscribe();
+
 
 declare const require: {
   context(path: string, deep?: boolean, filter?: RegExp): {

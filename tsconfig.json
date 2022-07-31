@@ -4,6 +4,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@env/*": ["src/environments/*"],
+      "@weather/*": ["src/app/weather/*"],
+      "@store/*": ["src/app/store/*"]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,

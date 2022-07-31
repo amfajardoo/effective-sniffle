@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  rapidApiKey: 'cec71ff1dbmsh340d97ee187234ap1a4941jsn4829eff865fd',
+  rapidApiHost: 'visual-crossing-weather.p.rapidapi.com',
+  url: 'https://visual-crossing-weather.p.rapidapi.com/forecast',
 };
 
 /*
