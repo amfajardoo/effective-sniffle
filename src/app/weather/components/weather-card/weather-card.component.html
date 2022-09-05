@@ -1,4 +1,4 @@
-<mat-card class="weather-card" *ngIf="weatherDetail; else noLocationFound">
+<mat-card class="weather-card" *ngIf="weatherDetail; else noLocationFound" data-testid="weather-detail">
   <mat-card-title>{{ weatherDetail.location }}</mat-card-title>
 
   <mat-card-content>
@@ -7,5 +7,5 @@
 </mat-card>
 
 <ng-template #noLocationFound>
-  It seems that you have not done any search, try to search your location :)
+  <p data-testid="weather-detail-not-found">It seems that you have not done any search, try to search your location :)</p>
 </ng-template>

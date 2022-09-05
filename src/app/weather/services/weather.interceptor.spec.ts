@@ -1,8 +1,8 @@
-import { HttpHandler, HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { environment } from '@env/environment';
-import { of } from 'rxjs';
+import { noop } from 'rxjs';
 
 import { WeatherInterceptor } from './weather.interceptor';
 import { WeatherService } from './weather.service';
@@ -32,9 +32,7 @@ describe('WeatherInterceptor', () => {
   });
 
   it('should intercept a request api', () => {
-    service.getWeather('colombia,sabaneta').subscribe(res => {
-      expect(res).toBeTruthy();
-    });
+    service.getWeather('colombia,sabaneta').subscribe(noop);
     const httpReq = httpMock.expectOne(`${apiurl}?location=colombia,sabaneta&contentType=json&aggregateHours=24`);
     expect(httpReq.request.headers.has('X-RapidAPI-Key')).toEqual(true);
     expect(httpReq.request.headers.has('X-RapidAPI-Host')).toEqual(true);

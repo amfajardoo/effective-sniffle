@@ -1,47 +1,40 @@
-import { HttpClient } from "@angular/common/http";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { environment } from "@env/environment";
 import { RapidApiWeatherReponse, Weather } from "@weather/interfaces/weather";
-import { map, noop, of } from "rxjs";
 import { WeatherService } from './weather.service';
 
 
 describe('WeatherService', () => {
   let service: WeatherService;
-  let httpSpy: jasmine.SpyObj<HttpClient>;
+  let httpMock: HttpTestingController;
 
   const location = 'colombia,sabaneta';
 
-  beforeEach(() => {
-    const spy = jasmine.createSpyObj<HttpClient>('HttpClient', ['get'])
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [WeatherService, { provide: HttpClient, useValue: spy}]
+      providers: [WeatherService]
     });
     service = TestBed.inject(WeatherService);
-    httpSpy = TestBed.inject(HttpClient) as jasmine.SpyObj<HttpClient>;
-  });
+    httpMock = TestBed.inject(HttpTestingController);
+  }));
+
+  afterEach(() => {
+    httpMock.verify();
+  })
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
   it('should get the weather', () => {
-
-    const expectedData = {
-      temp: 10,
+    const expectedData: Weather = {
+      temp: 50,
       location: 'colombia,sabaneta'
     };
-    spyOn(service, 'getWeather').withArgs(location).and.returnValue(of(expectedData));
-    service.getWeather(location).pipe(map((response => {
-      expect(response).toEqual(expectedData);
-    }))).subscribe(noop);
-    expect(service.getWeather).toHaveBeenCalledWith(location);
-  });
 
-  it('should work', waitForAsync(() => {
-    const expectedData: Partial<RapidApiWeatherReponse> = {
+    const responseObj: Partial<RapidApiWeatherReponse> = {
       locations: {
         [location]: {
           currentConditions: {
@@ -50,13 +43,17 @@ describe('WeatherService', () => {
         }
       }
     };
-    httpSpy.get.and.returnValue(of(expectedData));
 
     service.getWeather(location).subscribe(res => {
-      expect(res).toEqual({ location, temp: 50 })
-    });;
+      expect(res).toEqual(expectedData)
+    })
 
-    expect(httpSpy.get).toHaveBeenCalled()
-  }));
+
+    const httpReq = httpMock.expectOne(environment.url + "?location=colombia,sabaneta");
+
+    expect(httpReq.request.params.has('location')).toBeTrue();
+
+    httpReq.flush(responseObj);
+  });
 
 });

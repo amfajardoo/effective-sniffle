@@ -4,12 +4,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MockStore, provideMockStore } from "@ngrx/store/testing";
-import { LocationComponent } from './location.component';
 import { subscribeSpyTo } from '@hirez_io/observer-spy';
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { WeatherState } from '@store/weather/weather.reducer';
-import { loadWeather } from '@store/weather/weather.actions';
-import { tap } from 'rxjs';
+import { LocationComponent } from './location.component';
 
 
 describe('LocationComponent', () => {
