@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { WeatherService } from '@weather/services/weather.service';
 import { Observable, of } from 'rxjs';
-import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
+import { Spy, createSpyFromClass, provideAutoSpy } from 'jasmine-auto-spies';
 import { WeatherEffects } from './weather.effects';
 import { Weather } from '@weather/interfaces/weather';
 
@@ -16,7 +16,7 @@ describe('WeatherEffects', () => {
       providers: [
         WeatherEffects,
         provideMockActions(() => actions$),
-        { provide: WeatherService, useValue: createSpyFromClass(WeatherService) }
+        provideAutoSpy(WeatherService)
       ]
     });
 
@@ -29,7 +29,7 @@ describe('WeatherEffects', () => {
   });
 
   it('should load weather', (done) => {
-
+    // Arrange
     actions$ = of({
       type: '[Weather Page] Load Weather Data',
       location: 'Colombia, Sabaneta'
@@ -40,8 +40,10 @@ describe('WeatherEffects', () => {
       temp: 22
     }
 
+    // Act
     service.getWeather.and.nextWith(expectedResult)
 
+    // Assert
     effects.loadWeather$.subscribe(action => {
       expect(action).toEqual({
         type: '[Weather Api] Load Weather Data Success',
@@ -51,4 +53,5 @@ describe('WeatherEffects', () => {
       done();
     })
   })
+
 });

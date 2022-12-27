@@ -45,13 +45,20 @@ describe('LocationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('it should dispatch loadWeather action with input value', (done) => {
+  it('it should dispatch loadWeather action when input value', (done) => {
+    // it creates the spy for input element and it subscribes to it
     const observerSpy = subscribeSpyTo(component.locationForm.controls.location.valueChanges);
+    // get the input element
     const input = fixture.nativeElement.querySelector('input');
+    // set the value
     input.value = 'Colombia, sabaneta';
+    // triggers the input event
     input.dispatchEvent(new Event('input'));
+    // detect the ngzone changes that were dispatched
     fixture.detectChanges();
+    // resolve the changes promise
     fixture.whenStable().then(() => {
+      // assert the last value emitted by input and check it
       expect(observerSpy.getLastValue()).toEqual('Colombia, sabaneta');
       done();
     });
